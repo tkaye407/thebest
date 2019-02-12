@@ -4,7 +4,8 @@ import { BrowserRouter, Route, Link } from "react-router-dom";
 import {
      Stitch,
      RemoteMongoClient,
-     AnonymousCredential
+     AnonymousCredential, 
+     BSON
 } from "mongodb-stitch-browser-sdk";
 import './App.css';
 import total_stats from './total_stats.png';
@@ -219,9 +220,9 @@ componentDidMount() {
 search(e) {
   const s = this.input.value;
   const filter = { $or: [
-    { artist: { "$regularExpression":{"pattern": s,"options": "i"}}},
-    { track : { "$regularExpression":{"pattern": s,"options": "i"}}},
-    { album : { "$regularExpression":{"pattern": s,"options": "i"}}}
+    { artist: new BSON.BSONRegExp(s, "i")},
+    { track: new BSON.BSONRegExp(s, "i")},
+    { album: new BSON.BSONRegExp(s, "i")},
   ]};
 
   console.log(filter)
